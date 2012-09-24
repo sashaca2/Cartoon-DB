@@ -106,7 +106,8 @@ $keywordq = "SELECT keyw_no, keyword FROM keywords ORDER BY keyword asc";
 <br />
 * required
 </form>
-<br /><a href="https://gist.github.com/3735366">See the Code</a>
+<br /><a href="viewcartoons.php">Edit Database</a>
+<br /><a href="https://github.com/sashaca2/Cartoon-DB">See the Code</a>
 <br /><a href="http://www.digitalpraxis.sashahoffman.org">Return to Portfolio Development Homepage</a>
 
 </body>

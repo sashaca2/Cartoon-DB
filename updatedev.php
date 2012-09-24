@@ -197,13 +197,12 @@ $recent_char_result = mysql_query($recent_char) or die(mysql_error());
 // } 
 ?>
 <!-- </table> -->
+<br /><a href="viewcartoons.php">Edit Database</a>
 
+<br /><a href="formdev.php">Return to entry form</a>
 
-<br /><a href="http://www.digitalpraxis.sashahoffman.org/formdev.php">Return to entry form</a>
-
+<br /><a href="https://github.com/sashaca2/Cartoon-DB">See the Code</a>
 <br /><a href="http://www.digitalpraxis.sashahoffman.org">Return to Portfolio Development Homepage</a>
-
-<br /><a href="https://gist.github.com/3735366">See the Code</a>
 
 </body>
 </html>
