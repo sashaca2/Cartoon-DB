@@ -1,12 +1,13 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
         <head>  
-                <title>View Cartoons</title>
+                <title>View Records</title>
                 <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
         </head>
         <body>
-                
-                <h1>View Cartoons</h1>
+                <h1>View Records</h1>
+
+                <p><a href="newForm.php">Add New Record</a></p>
                 
                 <p><b>View All</b> | <a href="view-paginated.php">View Paginated</a></p>
                 
@@ -15,7 +16,7 @@
                         include('connect-db.php');
                         
                         // get the records from the database
-                        if ($result = $mysqli->query("SELECT * FROM cartoons ORDER BY toon_no"))
+                        if ($result = $mysqli->query("SELECT * FROM cartoons ORDER BY toon_no desc"))
                         {
                                 // display records if there are records to display
                                 if ($result->num_rows > 0)
@@ -34,8 +35,8 @@
                                                 echo "<td>" . $row->fk_artist_no . "</td>";
                                                 echo "<td>" . $row->p_date . "</td>";
                                                 echo "<td>" . $row->title . "</td>";
-                                                echo "<td><a href='editcartoons.php?toon_no=" . $row->toon_no . "'>Edit Toon</a></td>";
-                                                echo "<td><a href='editmeta.php?toon_no=" . $row->toon_no . "'>Add New Meta</a></td>";
+                                                echo "<td><a href='viewmeta.php?toon_no=" . $row->toon_no . "'>View Toon Meta</a></td>";
+                                                echo "<td><a href='newForm.php?toon_no=" . $row->toon_no . "'>Edit Toon</a></td>";
                                                 echo "</tr>";
                                         }
                                         
@@ -58,7 +59,7 @@
                 
                 ?>
                 
-                <br /><a href="formdev.php">Add New Record</a>
+                <br /><a href="newForm.php">Add New Record</a>
                 <br /><a href="https://github.com/sashaca2/Cartoon-DB">See the Code</a>
 <br /><a href="http://www.digitalpraxis.sashahoffman.org">Return to Portfolio Development Homepage</a>
 
