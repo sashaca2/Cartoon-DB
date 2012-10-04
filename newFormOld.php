@@ -4,103 +4,136 @@
 // connect to the database
 include("connect-db.php");
 
-function renderForm($artist_id = '', $pub_date ='', $caption = '', $id = '', $error = '', $actor_id = '', $events_id ='', $themes_id = '', $keywords_id = '') {
-    echo "<!DOCTYPE HTML PUBLIC '-//W3C//DTD HTML 4.01//EN' 'http://www.w3.org/TR/html4/strict.dtd'>";
-    echo "<html>";
-    echo "<head>";  
-    echo "<title>"; if ($id != '') { echo "Edit Cartoon"; } else { echo "New Record"; } echo "</title>";
-        echo "<meta http-equiv='Content-Type' content='text/html; charset=utf-8'/>";
-    echo "</head>";
-    echo "<body>";
-                 
-    echo "<h1>"; if ($id != '') { echo "Edit Cartoon"; } else { echo "New Record"; } echo "</h1>";
-         if ($error != '') {
-            echo "<div style='padding:4px; border:1px solid red; color:red'>" . $error. "</div>";} 
+function renderForm($artist_id = '', $pub_date ='', $caption = '', $id = '', $error = '', $actor_id = '', $events_id ='', $themes_id = '', $keywords_id = '') { ?>
+    <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+    <html>
+    <head>  
+    <title><?php if ($id != '') { echo "Edit Cartoon"; } else { echo "New Record"; } ?></title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    </head>
+    <body>
+                
+    <h1><?php if ($id != '') { echo "Edit Cartoon"; } else { echo "New Record"; } ?></h1>
+        <?php if ($error != '') {
+            echo "<div style='padding:4px; border:1px solid red; color:red'>" . $error. "</div>";
+        } ?>
                                 
-    echo "<form action='' method='post'>";
-        echo "<div>";
-             if ($id != '') { 
-                echo "<input type='hidden' name='toon_no' value="; echo $id; echo "/>";
-                    echo "<p>Cartoon ID: "; echo $id; echo "</p>"; } 
+    <form action="" method="post">
+        <div>
+            <?php if ($id != '') { ?>
+                <input type="hidden" name="toon_no" value="<?php echo $id; ?>" />
+                    <p>Cartoon ID: <?php echo $id; ?></p>
+            <?php } ?>
                     
-                    echo "<p>Select Cartoonist: *</p>";
-                        	$artists = mysql_query("SELECT * FROM cartoonists");
-                        echo "<select name='fk_artist_no'>";
-                            while ($row = mysql_fetch_array($artists)) {
-                                echo "<option value="; echo $row['artist_no']; 
-                                		if ($artist_id == $row['artist_no']) { echo ' selected '; } echo ">";
-                                    echo $row['f_name'] ." " .$row['l_name'] .": " ,$row['paper'];
-                                echo "</option>";
-                            } 
-                        echo "</select>";
-                 
-                    echo "<p>Enter Cartoon Publication Date: <em>(mm/dd/yyyy)</em> *";
-                        echo "<input type='text' name='p_date' size='10' value=";
-                        	echo $pub_date; 
-                        echo "/></p>";
+                    <p>Select Cartoonist: *</p>
+                        <?php $artists = mysql_query("SELECT * FROM cartoonists"); ?>
+                        <select name='fk_artist_no'>
+                            <?php while ($row = mysql_fetch_array($artists)) { ?>
+                                <option value="<?php echo $row['artist_no']; ?>"<?php if ($artist_id == $row['artist_no']) { echo 'selected'; } ?>>
+                                    <?php echo $row['f_name'] ." " .$row['l_name'] .": " ,$row['paper']; ?>
+                                </option>
+                            <?php } ?>
+                        </select>
+                
+                    <p>Enter Cartoon Publication Date: <em>(mm/dd/yyyy)</em> *
+                        <input type="text" name="p_date" size="10" value="<?php echo $pub_date; ?>"/></p>
 
-                    echo "<p>Enter Caption for Cartoon: *</p>";
-                        echo "<textarea name='title' cols=50 rows=4>";
-                        echo $caption; 
-                    echo "</textarea>";
-                   
-                    echo "<p>Add New Character(s): <em>use comma ', ' for multiple entries</em></p>";
-                        echo "<input type='text' name='new_actors' size='50'/>";
+                    <p>Enter Caption for Cartoon: *</p>
+                        <textarea name='title' cols=50 rows=4><?php echo $caption; ?></textarea>
+                    
+                    <p>Add New Character(s): <em>use comma ', ' for multiple entries</em></p>
+                        <input type="text" name="new_actors" size="50"/>
 
-                    echo "<p>and/or Choose Character(s): <em>command or control for multiple entries</em></p>";
-                        	$characters = mysql_query("SELECT * FROM characters ORDER BY actor asc");
-                        echo "<select name='actors[]' multiple='yes' size='10'>";
-                        	option_select($characters, 'actor_no', $actor_id, 'actor', $id);
+                    <p>and/or Choose Character(s): <em>command or control for multiple entries</em></p>
+                        <?php $characters = mysql_query("SELECT * FROM characters ORDER BY actor asc");?>
+                        <select name="actors[]" multiple="yes" size="10">
+                            <option value="">  --- </option>
+                            <?php while ($row = mysql_fetch_array($characters)) { ?>
+                                <option value="<?php echo $row['actor_no']; ?>"
+                                    <?php if ($id != '') { foreach ($actor_id as $char_id) { 
+                                        if ($char_id == $row['actor_no']) { 
+                                        echo 'selected'; } } }?>>
+                                    <?php echo $row['actor'];?>
+                                </option>
+                            <?php } ?>
+                        </select>
 
-                    echo "<p>Add New Event:";
-                        echo "<input type='text' name='new_event' size='50'/></p>";
+                    <p>Add New Event:
+                        <input type="text" name="new_event" size="50"/></p>
 
-                    echo "<p>or Choose an Event:";
-                        	$events = mysql_query("SELECT * FROM events ORDER BY event asc");
-                        echo "<select name='events'>";
-                        	option_select($events, 'event_no', $events_id, 'event', $id);
-                    echo "</p>";
+                    <p>or Choose an Event:
+                        <?php $events = mysql_query("SELECT * FROM events ORDER BY event asc");?>
+                        <select name="events">
+                            <option value="">  --- </option>
+                            <?php while ($row = mysql_fetch_array($events)) { ?>
+                                <option value="<?php echo $row['event_no']; ?>"
+                                    <?php if ($id != '') { foreach ($events_id as $event_id) { 
+                                        if ($event_id == $row['event_no']) { 
+                                        echo 'selected'; } } }?>>
+                                    <?php echo $row['event'];?>
+                                </option>
+                            <?php } ?>
+                        </select></p>
 
-                    echo "<p>Add New Theme:";
-                        echo "<input type='text' name='new_theme' size='50'/></p>";
+                    <p>Add New Theme:
+                        <input type="text" name="new_theme" size="50"/></p>
 
-                    echo "<p>or Choose a Theme:";
-                        	$themes = mysql_query("SELECT * FROM themes ORDER BY theme asc");
-                    	echo "<select name='themes'>";
-                        	option_select($themes, 'theme_no', $themes_id, 'theme', $id);
-					echo "</p>";
-					
-                    echo "<p>Add New Keyword(s): <em>use comma ', ' for multiple entries</em></p>";
-                        echo "<input type='text' name='new_keywords' size='50'/>";
+                    <p>or Choose a Theme:
+                        <?php $themes = mysql_query("SELECT * FROM themes ORDER BY theme asc");?>
+                        <select name="themes">
+                            <option value="">  --- </option>
+                                <?php while ($row = mysql_fetch_array($themes)) { ?>
+                                <option value="<?php echo $row['theme_no']; ?>"
+                                    <?php if ($id != '') { foreach ($themes_id as $theme_id) { 
+                                        if ($theme_id == $row['theme_no']) { 
+                                        echo 'selected'; } } }?>>
+                                    <?php echo $row['theme'];?>
+                                </option>
+                            <?php } ?>
+                        </select></p>
 
-                    echo "<p>and/or Choose Keyword(s): <em>command or control for multiple entries</em></p>";
-                    		$keywords = mysql_query("SELECT * FROM keywords ORDER BY keyword asc");
-                    	echo "<select name='keywords[]' multiple='yes' size='10'>";
-							option_select($keywords, 'keyw_no', $keywords_id, 'keyword', $id);
+                    <p>Add New Keyword(s): <em>use comma ', ' for multiple entries</em></p>
+                        <input type="text" name="new_keywords" size="50"/>
 
-                    echo "<br /><input type='submit' name='submit' value='Submit' />";
-        echo "</div>";
-    echo "</form>"; 
-    echo "</body>";
-    echo "</html>";
-} // ends function renderForm
+                    <p>and/or Choose Keyword(s): <em>command or control for multiple entries</em></p>
+                        <?php $keywords = mysql_query("SELECT * FROM keywords ORDER BY keyword asc");?>
+                        <select name='keywords[]' multiple='yes' size='10'>
+                            <option value=''>  --- </option>                           
+                                <?php while ($row = mysql_fetch_array($keywords)) { ?>
+                                <option value="<?php echo $row['keyw_no']; ?>"
+                                    <?php if ($id != '') { foreach ($keywords_id as $keyword_id) { 
+                                        if ($keyword_id == $row['keyw_no']) { 
+                                        echo 'selected'; } } }?>>
+                                    <?php echo $row['keyword'];?>
+                                </option>  
+                                <?php } ?>
+                        </select> 
 
-function option_select ($query, $pk_field, $array, $category_name, $id) {
+                    <br /><input type="submit" name="submit" value="Submit" />
+        </div>
+    </form>
+    </body>
+    </html>
+<?php } // ends function renderForm
+
+/*function option_select ($query, $pk_field, $array, $category_name, $id) {
     echo "<option value=''>  --- </option>"; 
     while ($row = mysql_fetch_array($query)) {
-        echo "<option value ='$row[$pk_field]'" ;
+        echo "<option value =$row[$pk_field]" ;
             if ($id != '') {
-            	if ($array != '') {
-                	foreach ($array as $element) {
-                    	if ($element == $row[$pk_field]) {
-                        	echo " selected "; }}}}
+                foreach ($array as $element) {
+                    if ($element == $row[$pk_field]) {
+                        echo "selected";
+                    }
+                }
+            }
         echo ">";
         echo $row[$category_name];
         echo "</option>";
     }
     echo "</select>";
 } // ends function
-
+*/
 function delete_meta($delete_table_name, $id) {
     $delete_meta="DELETE FROM " .$delete_table_name ." WHERE fk_toon_no=".$id;
         mysql_query($delete_meta) or die('Error deleting joiner table');
@@ -208,7 +241,9 @@ if (isset($_GET['toon_no'])) {
                     delete_meta('cartoon_characters', $id);
                     foreach($cartoon_actors as $cartoon_actor) {
                         if ($cartoon_actor>= 1) {
-                            join_table('cartoon_characters', 'fk_actor_no', $cartoon_actor, $id); } }
+                            join_table('cartoon_characters', 'fk_actor_no', $cartoon_actor, $id);
+                        }
+                    }
                     new_char_table ($new_actors, $id);
                     delete_meta('cartoon_events', $id);
                     all_event_tables($new_event, $cartoon_event, $id);
@@ -217,7 +252,9 @@ if (isset($_GET['toon_no'])) {
                     delete_meta('cartoon_keywords', $id);
                     foreach($cartoon_keywords as $cartoon_keyword) {
                         if ($cartoon_keyword >= 1) {
-                            join_table('cartoon_keywords', 'fk_keyw_no', $cartoon_keyword, $id); } }
+                            join_table('cartoon_keywords', 'fk_keyw_no', $cartoon_keyword, $id);
+                        }
+                    }
                     new_keyword_table ($new_keywords, $id);
                 }
                 // redirect the user once the form is updated
@@ -244,23 +281,27 @@ if (isset($_GET['toon_no'])) {
                         $p_date = $pub_date[1].'/'.$pub_date[2].'/'.$pub_date[0];                 
                     $stmt->close();
                 }
-                // queries below create an arrays of all the selected categories to pass to the form in a variable
+                // this creates an array of all the selected characters to pass to the form in a variable
                 $actor_query = "SELECT * FROM cartoon_characters WHERE fk_toon_no=".$id;
                     $actor_array = mysql_query($actor_query);
                         while ($row = mysql_fetch_assoc($actor_array)) {
-                            $actor_id[] = $row['fk_actor_no']; }
+                            $actor_id[] = $row['fk_actor_no'];
+                        }
                 $event_query = "SELECT * FROM cartoon_events WHERE fk_toon_no=".$id;
                     $event_array = mysql_query($event_query);
                         while ($row = mysql_fetch_assoc($event_array)) {
-                            $events_id[] = $row['fk_event_no']; }
+                            $events_id[] = $row['fk_event_no'];
+                        }
                 $theme_query = "SELECT * FROM cartoon_themes WHERE fk_toon_no=".$id;
                     $theme_array = mysql_query($theme_query);
                         while ($row = mysql_fetch_assoc($theme_array)) {
-                            $themes_id[] = $row['fk_theme_no']; }
+                            $themes_id[] = $row['fk_theme_no'];
+                        }
                 $keyword_query = "SELECT * FROM cartoon_keywords WHERE fk_toon_no=".$id;
                     $keyword_array = mysql_query($keyword_query);
                         while ($row = mysql_fetch_assoc($keyword_array)) {
-                            $keywords_id[] = $row['fk_keyw_no']; }     
+                            $keywords_id[] = $row['fk_keyw_no'];
+                        }     
                 // show the form
                 renderForm($artist_id, $p_date, $caption, $id,  NULL, $actor_id, $events_id, $themes_id, $keywords_id);        
         // if the 'id' value is not valid, redirect the user back to the viewcartoons.php page
@@ -301,18 +342,26 @@ else {
                             VALUES ('NULL', '".$artist_id."', '".$mysqlPDate."', '".$caption."')";
                         mysql_query($new_toon) or die('Error adding new cartoon ');
                     $new_toon_id = mysql_insert_id();
-                    
-                // adds new and/or existing categories into database and joiner tables
+                // inserts new character into database and joiner table
                 new_char_table($new_actors, $new_toon_id);
+                // inserts existing characters into joiner table
                 foreach($cartoon_actors as $cartoon_actor) {
                     if ($cartoon_actor >= 1) { 
-                        join_table('cartoon_characters', 'fk_actor_no', $cartoon_actor, $new_toon_id); } } 
+                        join_table('cartoon_characters', 'fk_actor_no', $cartoon_actor, $new_toon_id);
+                    }
+                } 
+                // add new event or existing event into database
                 all_event_tables($new_event, $cartoon_event, $new_toon_id);
+                // add new theme or existing theme into database
                 all_theme_tables($new_theme, $cartoon_theme, $new_toon_id);
+
                 new_keyword_table($new_keywords, $new_toon_id);
+
                 foreach($cartoon_keywords as $cartoon_keyword) {
                     if ($cartoon_keyword >= 1) { 
-                        join_table('cartoon_keywords', 'fk_keyw_no', $cartoon_keyword, $new_toon_id); } } 
+                        join_table('cartoon_keywords', 'fk_keyw_no', $cartoon_keyword, $new_toon_id);
+                    }
+                } 
             }
             // redirect the user
             header("Location: viewcartoons.php");
