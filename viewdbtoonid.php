@@ -2,14 +2,14 @@
 
         <p><a href="DissCartoonForm.php">Add New Record</a></p>
                 
-        <p><b><a href="DissDBTable.php">View All By Date</a></b> | <a href="DissDBTableToon.php">View By Toon ID</a>  | <a href="DissDBTablePage.php">View Paginated</a></p>
+        <p><a href="DissDBTable.php">View All By Date</a> | <a href="DissDBTableToon.php"><b>View By Toon ID</b></a>  | <a href="DissDBTablePage.php">View Paginated</a></p>
                 
         <?php
         // connect to the database
         include('connect-real-db.php');
                         
         // get the records from the database
-        if ($result = $mysqli->query("SELECT * FROM cartoons ORDER BY p_date desc")) {
+        if ($result = $mysqli->query("SELECT * FROM cartoons ORDER BY toon_no desc")) {
             // display records if there are records to display
             if ($result->num_rows > 0) {
                 // display records in a table

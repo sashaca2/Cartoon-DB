@@ -16,7 +16,13 @@ function renderForm($artist_id = '', $pub_date ='', $caption = '', $description 
     echo "<div class='heading'><h2>"; if ($id != '') { echo "Edit Cartoon"; } else { echo "New Record"; } echo "</h2></div>";
          if ($error != '') {
             echo "<div style='padding:4px; border:1px solid red; color:red'>" . $error. "</div>";} 
-                                
+
+    echo "<table border='1'>";
+        echo "<tr><th>Jan</th><th>Feb</th><th>March</th><th>April</th><th>May</th><th>June</th><th>July</th><th>Aug</th><th>Sep</th><th>Oct</th><th>Nov</th><th>Dec</th></tr>";
+        echo "<tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>";
+    echo "</table>";
+    echo "<br />";
+
     echo "<form action='' method='post'>";
         if ($id != '') { 
             echo "<input type='hidden' name='toon_no' value='" . $id . "' />";
@@ -222,7 +228,6 @@ if (isset($_GET['toon_no'])) {
     // if the form's submit button is clicked, we need to process the form
     if (isset($_POST['submit'])) {
         // make sure the 'id' in the URL is valid
-        echo($_POST['toon_no'] . "XX");
         if (is_numeric($_POST['toon_no'])) {
             // get variables from the URL/form
             $id = $_POST['toon_no'];

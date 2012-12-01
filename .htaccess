@@ -1,0 +1,31 @@
+AuthName "Restricted Area" 
+AuthType Basic 
+AuthUserFile /home/shoff317/.htpasswd 
+AuthGroupFile /dev/null 
+<Files connect-real-db.php>
+require valid-user
+</Files>
+<Files RealDBForm.php>
+require valid-user
+</Files>
+<Files view-dbpaginated.php>
+require valid-user
+</Files>
+<Files viewdb.php>
+require valid-user
+</Files>
+<Files viewtoonmeta.php>
+require valid-user
+</Files>
+<Files DissCartoonMeta.php>
+require valid-user
+</Files>
+<Files DissCartoonForm.php>
+require valid-user
+</Files>
+<Files DissDBTable.php>
+require valid-user
+</Files>
+<Files DissDBTablePage.php>
+require valid-user
+</Files>

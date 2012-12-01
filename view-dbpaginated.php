@@ -36,7 +36,7 @@
                     }
                                                         
                     // display pagination
-                    echo "<p><a href='DissDBTable.php'>View All</a> | <b>View Page:</b> ";
+                    echo "<p><a href='DissDBTable.php'>View All</a> | <a href='DissDBTableToon.php'>View All By Toon ID</a> | <b>View Page:</b> ";
                     for ($i = 1; $i <= $total_pages; $i++) {
 						if (isset($_GET['page']) && $_GET['page'] == $i) {
 							echo $i . " ";

@@ -67,12 +67,13 @@ $recent_keyword = "SELECT cartoon_keywords.fk_toon_no, cartoon_keywords.fk_keyw_
       <?php if ($recent_event_result=mysql_query($recent_event)) { ?>
         <table class='meta' border='1'>
           <tr>
-            <th>Event ID</th><th>Event</th>
+            <th>Event ID</th><th>Event</th><th></th>
           </tr>
           <tr>
             <?php while ($row=mysql_fetch_array($recent_event_result)) { ?>
               <td><?php echo $row['fk_event_no'];?></td>
               <td class='tag'><?php echo $row['event'];?></td>
+              <?php echo "<td><a href='ViewAll.php?events=" . $row['fk_event_no'] . "'>View All</a></td>"; ?>
           </tr>
       <?php } }?>
         </table>
@@ -83,12 +84,13 @@ $recent_keyword = "SELECT cartoon_keywords.fk_toon_no, cartoon_keywords.fk_keyw_
       <?php if ($recent_char_result=mysql_query($recent_char)) { ?>
       <table class='meta' border="1">
         <tr>
-          <th>Actor ID</th><th>Actor</th>
+          <th>Actor ID</th><th>Actor</th><th></th>
         </tr>
           <tr>
             <?php while ($row=mysql_fetch_array($recent_char_result)) { ?>
               <td><?php echo $row['fk_actor_no'];?></td>
               <td class='tag'><?php echo $row['actor'];?></td>
+              <?php echo "<td><a href='ViewAll.php?actors=" . $row['fk_actor_no'] . "'>View All</a></td>"; ?>
           </tr>
       <?php } }?>
         </table>
@@ -101,12 +103,13 @@ $recent_keyword = "SELECT cartoon_keywords.fk_toon_no, cartoon_keywords.fk_keyw_
       <?php if ($recent_keyword_result=mysql_query($recent_keyword)) { ?>
       <table class='meta' border="1">
         <tr>
-          <th>Keyword ID</th><th>Keyword</th>
+          <th>Keyword ID</th><th>Keyword</th><th></th>
         </tr>
           <tr>
             <?php while ($row=mysql_fetch_array($recent_keyword_result)) { ?>
               <td><?php echo $row['fk_keyw_no'];?></td>
               <td class='tag'><?php echo $row['keyword'];?></td>
+              <?php echo "<td><a href='ViewAll.php?keywords=" . $row['fk_keyw_no'] . "'>View All</a></td>"; ?>
           </tr>
       <?php } }?>
         </table>
@@ -121,9 +124,9 @@ $recent_keyword = "SELECT cartoon_keywords.fk_toon_no, cartoon_keywords.fk_keyw_
 
 <div class='clearfloat'>
 <br />
+<br />
 <p><a href="DissCartoonForm.php">Add New Record</a></p>
 <p><a href="DissDBTable.php">Return to Cartoons</a></p>
-<p><a href="https://github.com/sashaca2/Cartoon-DB">See the Code</a></p>
 <p><a href="http://www.digitalpraxis.sashahoffman.org">Return to Portfolio Development Homepage</a></p>
 </div>
 
@@ -138,6 +141,6 @@ if (isset($_POST['submit'])) {
         mysql_query($delete_actor) or die('Error deleting joiner table');
     $delete_cartoon="DELETE FROM cartoons WHERE toon_no=".$id;
         mysql_query($delete_cartoon) or die('Error deleting joiner table');
-    header("Location: viewcartoons.php");
+    header("Location: DissDBTable.php");
 }
 ?>
